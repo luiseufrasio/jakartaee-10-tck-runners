@@ -39,8 +39,6 @@
         <tck.tests.home>${tck.home}/src/com/sun/ts/tests</tck.tests.home>
 
         <jacoco.includes>org/glassfish/**\:com/sun/enterprise/**</jacoco.includes>
-
-        <port.http>18080</port.http>
     </properties>
 
     <dependencies>
@@ -190,7 +188,6 @@
                                 <argument>verify</argument>
                                 <argument>-Dpayara.version=${payara.version}</argument>
                                 <argument>-Dpayara.artifact=${payara.artifact}</argument>
-                                <argument>-Dport.http=${port.http}</argument>
                                 <argument>-Dmaven-install-plugin.version=${maven-install-plugin.version}</argument>
                                 <argument>-Darquillian.version=${arquillian.version}</argument>
                                 <argument>-Dmaven-failsafe-plugin.version=${maven-failsafe-plugin.version}</argument>
