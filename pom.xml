@@ -68,6 +68,7 @@
         <maven-failsafe-plugin.version>3.3.0</maven-failsafe-plugin.version>
         <maven-dependency-plugin.version>3.7.1</maven-dependency-plugin.version>
         <maven-enforcer-plugin.version>3.5.0</maven-enforcer-plugin.version>
+        <maven-antrun-plugin.version>3.1.0</maven-antrun-plugin.version>
         <exec-maven-plugin.version>3.3.0</exec-maven-plugin.version>
         <download-maven-plugin.version>1.9.0</download-maven-plugin.version>
         <jakarta.tck.sigtest-maven-plugin.version>2.2</jakarta.tck.sigtest-maven-plugin.version>
@@ -182,6 +183,12 @@
                     <artifactId>maven-enforcer-plugin</artifactId>
                     <version>${maven-enforcer-plugin.version}</version>
                 </plugin>
+
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-antrun-plugin</artifactId>
+                    <version>${maven-antrun-plugin.version}</version>
+                </plugin>
             </plugins>
         </pluginManagement>
 
@@ -238,9 +245,6 @@
 
         <profile>
             <id>payara-server-remote</id>
-            <properties>
-                <arquillian.profile>payara-server-remote</arquillian.profile>
-            </properties>
 
             <dependencies>
                 <dependency>
@@ -254,9 +258,6 @@
 
         <profile>
             <id>payara-server-managed</id>
-            <properties>
-                <arquillian.profile>payara-server-managed</arquillian.profile>
-            </properties>
 
             <dependencies>
                 <dependency>
