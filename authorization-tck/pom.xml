@@ -39,17 +39,8 @@
         <tck.tests.home>${tck.home}/src/com/sun/ts/tests</tck.tests.home>
 
         <jacoco.includes>org/glassfish/**\:com/sun/enterprise/**</jacoco.includes>
-        
-        <port.admin>4848</port.admin>
-        <port.derby>11527</port.derby>
+
         <port.http>18080</port.http>
-        <port.https>18181</port.https>
-        <port.jms>17676</port.jms>
-        <port.jmx>18686</port.jmx>
-        <port.orb>13700</port.orb>
-        <port.orb.mutual>13920</port.orb.mutual>
-        <port.orb.ssl>13820</port.orb.ssl>
-        <port.harness.log>12000</port.harness.log>
     </properties>
 
     <dependencies>
@@ -73,10 +64,9 @@
             <plugin>
                 <groupId>com.googlecode.maven-download-plugin</groupId>
                 <artifactId>download-maven-plugin</artifactId>
-                <version>1.6.8</version>
                 <executions>
                     <execution>
-                        <id>download-authorization-tck</id>
+                        <id>download-and-unpack-ant</id>
                         <phase>generate-resources</phase>
                         <goals>
                             <goal>wget</goal>
@@ -98,17 +88,6 @@
                 </configuration>
                 <executions>
                     <execution>
-                        <id>unpack-payara</id>
-                        <phase>pre-integration-test</phase>
-                        <goals>
-                            <goal>unpack-dependencies</goal>
-                        </goals>
-                        <configuration>
-                            <includeArtifactIds>payara</includeArtifactIds>
-                            <outputDirectory>${project.build.directory}</outputDirectory>
-                        </configuration>
-                    </execution>
-                    <execution>
                         <id>unpack-tck</id>
                         <phase>pre-integration-test</phase>
                         <goals>
@@ -126,7 +105,7 @@
                 <artifactId>maven-dependency-plugin</artifactId>
                 <executions>
                     <execution>
-                        <id>unpack</id>
+                        <id>unpack-tck</id>
                         <phase>pre-integration-test</phase>
                         <goals>
                             <goal>unpack</goal>
@@ -157,7 +136,7 @@
                         </goals>
                         <configuration>
                             <tasks>
-                                <copy file="${project.basedir}/payara-pom.xml" tofile="${tck.root}/authorization-tck-3.0.0/tck/pom.xml"/>
+                                <copy file="${project.basedir}/payara-pom.xml" tofile="${tck.root}/authorization-tck-${jakarta-authorization-tck.version}/tck/pom.xml"/>
                             </tasks>
                         </configuration>
                     </execution>
@@ -175,6 +154,7 @@
                     </execution>
                 </executions>
                 <configuration>
+                    <skip>${skipTests}</skip>
                     <executable>${maven.executable}</executable>
                     <arguments>
                         <argument>-B</argument>
@@ -182,10 +162,17 @@
                         <argument>-s</argument>
                         <argument>${maven.settings.xml}</argument>
                         <argument>-f</argument>
-                        <argument>${tck.root}/authorization-tck-3.0.0/tck/pom.xml</argument>
+                        <argument>${tck.root}/authorization-tck-${jakarta-authorization-tck.version}/tck/pom.xml</argument>
                         <argument>clean</argument>
-                        <argument>install</argument>
+                        <argument>verify</argument>
                         <argument>-Dpayara.version=${payara.version}</argument>
+                        <argument>-Dpayara.home=${payara.home}</argument>
+                        <argument>-Dport.http=${port.http}</argument>
+                        <argument>-Dmaven-install-plugin.version=${maven-install-plugin.version}</argument>
+                        <argument>-Darquillian.version=${arquillian.version}</argument>
+                        <argument>-Dmaven-failsafe-plugin.version=${maven-failsafe-plugin.version}</argument>
+                        <argument>-Djunit.version=${junit.version}</argument>
+                        <argument>-P${arquillian.profile}</argument>
                     </arguments>
                     <environmentVariables>
                         <LC_ALL>C</LC_ALL>
