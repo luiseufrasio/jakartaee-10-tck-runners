@@ -25,11 +25,11 @@
             <property name="clientEarDir">target/appclient</property>
             <property name="unpackClientEar">true</property>
             <!-- Need to populate from ts.jte command.testExecuteAppClient setting for glassfish -->
-            <property name="clientCmdLineString">${glassfish.home}/glassfish/bin/appclient \
+            <property name="clientCmdLineString">${payara.home}/glassfish/bin/appclient \
                 -Dstartup.login=false \
                 -Dauth.gui=false \
-                -Dlog.file.location=${glassfish.home}/glassfish/domains/domain1/logs \
-                -Dri.log.file.location=${glassfish.home}/glassfish/domains/domain1/logs \
+                -Dlog.file.location=${payara.home}/glassfish/domains/domain1/logs \
+                -Dri.log.file.location=${payara.home}/glassfish/domains/domain1/logs \
                 -DwebServerHost.2=localhost \
                 -DwebServerPort.2=8080 \
                 -Ddeliverable.class=com.sun.ts.lib.deliverable.cts.CTSDeliverable \
@@ -40,7 +40,7 @@
             <!-- Pass ENV vars here -->
             <!-- <property name="clientEnvString">PATH=${env.PATH};LD_LIBRARY_PATH=${glassfish.home}/lib;AS_DEBUG=true;
                 APPCPATH=${glassfish.home}/glassfish/lib/arquillian-protocol-lib.jar:${glassfish.home}/glassfish/lib/tck-porting-lib.jar:target/appclient/lib/arquillian-core.jar:target/appclient/lib/arquillian-junit5.jar:${glassfish.home}/glassfish/modules/security.jar</property> -->
-            <property name="clientEnvString">AS_JAVA=${env.JAVA_HOME};PATH=${env.PATH};LD_LIBRARY_PATH=${glassfish.home}/lib;AS_DEBUG=true;
+            <property name="clientEnvString">AS_JAVA=${env.JAVA_HOME};PATH=${env.PATH};LD_LIBRARY_PATH=${payara.home}/lib;AS_DEBUG=true;
                 APPCPATH=target/appclient/lib/arquillian-protocol-lib.jar:${clientEarLibClasspath}</property>
             <property name="clientDir">${project.basedir}</property>
             <property name="workDir">${project.build.directory}</property>

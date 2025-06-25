@@ -12,7 +12,7 @@
         <property name="descriptorDir">target/</property>
     </extension>
 
-    <group qualifier="glassfish-servers" default="true">
+    <group qualifier="payara-servers" default="true">
         <container qualifier="tck-javatest" default="true">
             <protocol type="javatest">
                 <property name="trace">true</property>
