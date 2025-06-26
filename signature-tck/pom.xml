@@ -25,7 +25,6 @@
 
     <artifactId>signature-tck-runner</artifactId>
     <version>1.0-SNAPSHOT</version>
-    <name>GlassFish: Jakarta EE Signature TCK Runner</name>
 
     <properties>
 
@@ -125,7 +124,7 @@
             <plugin>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <configuration>
-                    <release>21</release>
+                    <release>17</release>
                 </configuration>
             </plugin>
             <plugin>
