@@ -29,7 +29,6 @@
 
     <properties>
 
-
         <!-- Remnants from ancient TCK -->
         <webServerHost>localhost</webServerHost>
         <webServerPort>8080</webServerPort>
@@ -123,13 +122,10 @@
         </testResources>
 
         <plugins>
-
-
-
             <plugin>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <configuration>
-                    <release>17</release>
+                    <release>21</release>
                 </configuration>
             </plugin>
             <plugin>
@@ -151,8 +147,36 @@
                                      <version>${jakarta.tck.arquillian.version}</version>
                                     <type>jar</type>
                                     <overWrite>true</overWrite>
-                                    <outputDirectory>${project.build.directory}/protocol</outputDirectory>
+                                    <outputDirectory>${project.build.directory}${file.separator}protocol</outputDirectory>
                                     <destFileName>protocol.jar</destFileName>
+                                </artifactItem>
+                            </artifactItems>
+                        </configuration>
+                    </execution>
+
+                    <execution>
+                        <id>copy-signature-libs</id>
+                        <goals>
+                            <goal>copy</goal>
+                        </goals>
+                        <phase>process-test-resources</phase>
+                        <configuration>
+                            <artifactItems>
+                                <artifactItem>
+                                    <groupId>jakarta.tck</groupId>
+                                    <artifactId>signaturetest</artifactId>
+                                    <type>jar</type>
+                                    <overWrite>true</overWrite>
+                                    <outputDirectory>${project.build.directory}${file.separator}lib</outputDirectory>
+                                    <destFileName>signaturetest.jar</destFileName>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>jakarta.tck</groupId>
+                                    <artifactId>sigtest-maven-plugin</artifactId>
+                                    <type>jar</type>
+                                    <overWrite>true</overWrite>
+                                    <outputDirectory>${project.build.directory}${file.separator}lib</outputDirectory>
+                                    <destFileName>sigtest-maven-plugin.jar</destFileName>
                                 </artifactItem>
                             </artifactItems>
                         </configuration>
