@@ -52,7 +52,7 @@ public class GlassfishTestArchiveProcessor extends AbstractTestArchiveProcessor 
     @Override
     public void processWebArchive(WebArchive archive, Class<?> testClass, URL sunXmlURL) {
         String name = archive.getName();
-        WebArchive webArchive = (WebArchive) archive;;
+        WebArchive webArchive = (WebArchive) archive;
         webArchive.addAsLibrary(new File("target/lib", "sigtest-maven-plugin.jar"), "sigtest-maven-plugin.jar");
         webArchive.addAsLibrary(new File("target/lib", "signaturetest.jar"), "signaturetest.jar");
 
