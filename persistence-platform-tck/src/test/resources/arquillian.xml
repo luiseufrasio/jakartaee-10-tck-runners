@@ -47,7 +47,7 @@
                     --add-opens \
                     java.base/java.lang=ALL-UNNAMED \
                     -cp \
-                    ${payara.home}/glassfish/lib/gf-client.jar:${clientStubJar} \
+                    ${payara.home}/glassfish/lib/gf-client.jar:${payara.home}/javadb/lib/derbytools.jar:${clientStubJar} \
                     -Djava.system.class.loader=org.glassfish.appclient.client.acc.agent.ACCAgentClassLoader \
                     -Dcom.sun.aas.configRoot=${payara.home}/glassfish/config \
                     -Dcts.tmp=${ts.work.dir}/tmp \
