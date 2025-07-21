@@ -387,7 +387,7 @@
                                 <exclude>ee.jakarta.tck.persistence.se.entityManagerFactory.Client2</exclude>
                                 <exclude>ee.jakarta.tck.persistence.se.pluggability.contracts.resource_local.Client</exclude>
                             </excludes>
-                            <argLine>-Xmx4096m</argLine>
+                            <argLine>-Xmx8192m</argLine>
                             <systemPropertyVariables>
                                 <payara.home>${payara.home}</payara.home>
 
