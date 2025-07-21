@@ -352,20 +352,20 @@
 <!--                        </configuration>-->
 <!--                    </execution>-->
 
-                    <execution>
-                        <id>initialise-database</id>
-                        <phase>pre-integration-test</phase>
-                        <goals>
-                            <goal>run</goal>
-                        </goals>
-                        <configuration>
-                            <target>
-                                <sql autocommit="true" classpath="${jdbc.lib.classpath}" delimiter="${db.delimiter}" driver="org.apache.derby.jdbc.ClientDriver" onerror="continue" password="${jakarta.persistence.db.password}" url="${jakarta.persistence.jdbc.url}" userid="${jakarta.persistence.db.user}">
-                                    <transaction src="${project.build.directory}${file.separator}test-classes${file.separator}derby.sql"/>
-                                </sql>
-                            </target>
-                        </configuration>
-                    </execution>
+<!--                    <execution>-->
+<!--                        <id>initialise-database</id>-->
+<!--                        <phase>pre-integration-test</phase>-->
+<!--                        <goals>-->
+<!--                            <goal>run</goal>-->
+<!--                        </goals>-->
+<!--                        <configuration>-->
+<!--                            <target>-->
+<!--                                <sql autocommit="true" classpath="${jdbc.lib.classpath}" delimiter="${db.delimiter}" driver="org.apache.derby.jdbc.ClientDriver" onerror="continue" password="${jakarta.persistence.db.password}" url="${jakarta.persistence.jdbc.url}" userid="${jakarta.persistence.db.user}">-->
+<!--                                    <transaction src="${project.build.directory}${file.separator}test-classes${file.separator}derby.sql"/>-->
+<!--                                </sql>-->
+<!--                            </target>-->
+<!--                        </configuration>-->
+<!--                    </execution>-->
 
                     <execution>
                         <id>stop-database</id>
@@ -381,6 +381,47 @@
                     </execution>
                 </executions>
             </plugin>
+
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>sql-maven-plugin</artifactId>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.apache.derby</groupId>
+                        <artifactId>derbyclient</artifactId>
+                        <version>${derby.version}</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>org.apache.derby</groupId>
+                        <artifactId>derbytools</artifactId>
+                        <version>${derby.version}</version>
+                    </dependency>
+                </dependencies>
+                <executions>
+                    <execution>
+                        <id>sql-cli</id>
+                        <goals>
+                            <goal>execute</goal>
+                        </goals>
+                        <phase>pre-integration-test</phase>
+                        <configuration>
+                            <skip>${skipConfig}</skip>
+                            <driver>org.apache.derby.jdbc.ClientDriver</driver>
+                            <url>jdbc:derby://localhost:1527/derbyDB;create=true</url>
+                            <username>CTS1</username>
+                            <password>CTS1</password>
+                            <autocommit>true</autocommit>
+                            <delimiter>;</delimiter>
+                            <onError>continue</onError>
+                            <srcFiles>
+                                <srcFile>${project.build.directory}${file.separator}test-classes${file.separator}derby.sql</srcFile>
+                            </srcFiles>
+                            <sqlCommand>CREATE SCHEMA CTS1 AUTHORIZATION CTS1;</sqlCommand>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-failsafe-plugin</artifactId>
