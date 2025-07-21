@@ -206,7 +206,7 @@
                         </goals>
                         <phase>pre-integration-test</phase>
                         <configuration>
-                            <skip>${skipTests}</skip>
+                            <skip>${skipConfig}</skip>
                             <artifactItems>
                                 <artifactItem>
                                     <groupId>jakarta.tck</groupId>
@@ -215,6 +215,7 @@
                                     <type>jar</type>
                                     <overWrite>true</overWrite>
                                     <outputDirectory>${project.build.directory}</outputDirectory>
+                                    <destFileName>dbprocedures.jar</destFileName>
                                 </artifactItem>
                             </artifactItems>
                         </configuration>
