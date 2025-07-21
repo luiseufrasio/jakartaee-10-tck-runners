@@ -433,7 +433,7 @@
                         <exclude>ee.jakarta.tck.persistence.se.pluggability.contracts.resource_local.Client</exclude>
 
                         <!-- Signature Test -->
-                        <exclude>ee.jakarta.tck.persistence.signaturetest.JPASigTest</exclude>
+<!--                        <exclude>ee.jakarta.tck.persistence.signaturetest.JPASigTest</exclude>-->
                     </excludes>
 
                     <systemPropertyVariables>
