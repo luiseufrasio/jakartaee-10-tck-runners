@@ -26,7 +26,6 @@ SPDX-License-Identifier: Apache-2.0 -->
         <configuration>
             <property name="allowConnectingToRunningServer">false</property>
             <property name="adminHost">localhost</property>
-            <property name="adminHttps">false</property>
             <property name="authorisation">false</property>
             <property name="adminPort">4848</property>
             <property name="outputToConsole">true</property>
