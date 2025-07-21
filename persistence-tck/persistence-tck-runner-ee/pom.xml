@@ -469,7 +469,7 @@
 
                 <executions>
                     <execution>
-                        <id>persistence-tests-1</id>
+                        <id>persistence-tests</id>
                         <goals>
                             <goal>integration-test</goal>
                             <goal>verify</goal>
