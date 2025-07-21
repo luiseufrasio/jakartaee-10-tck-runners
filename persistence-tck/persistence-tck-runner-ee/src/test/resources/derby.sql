@@ -961,12 +961,3 @@ CREATE PROCEDURE DeleteAllEmp() language java external name 'ee.jakarta.tck.pers
 
 DROP FUNCTION REPLACE;
 CREATE FUNCTION REPLACE (origin_string VARCHAR(255), old_string VARCHAR(255), new_string VARCHAR(255)) RETURNS VARCHAR(255) language java external name 'ee.jakarta.tck.persistence.storedprocedures.CS_Procs.ReplaceString' parameter style java;
-
-
-
-
-CALL sqlj.remove_jar('APP.dbprocedures', 0);
-CALL sqlj.install_jar('${project.build.directory}/dbprocedures.jar', 'APP.dbprocedures', 0);
-CALL SYSCS_UTIL.SYSCS_SET_DATABASE_PROPERTY('derby.database.classpath', 'APP.dbprocedures');
-
-

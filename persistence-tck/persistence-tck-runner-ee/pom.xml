@@ -298,7 +298,7 @@
                 </dependencies>
                 <executions>
                     <execution>
-                        <id>sql-cli</id>
+                        <id>init-derby</id>
                         <goals>
                             <goal>execute</goal>
                         </goals>
@@ -315,7 +315,7 @@
                             <srcFiles>
                                 <srcFile>${project.build.directory}${file.separator}test-classes${file.separator}derby.sql</srcFile>
                             </srcFiles>
-                            <sqlCommand>CREATE SCHEMA CTS1 AUTHORIZATION CTS1;</sqlCommand>
+                            <sqlCommand>CREATE SCHEMA CTS1 AUTHORIZATION CTS1;CALL sqlj.remove_jar('APP.dbprocedures', 0);CALL sqlj.install_jar('${project.build.directory}/dbprocedures.jar', 'APP.dbprocedures', 0);CALL SYSCS_UTIL.SYSCS_SET_DATABASE_PROPERTY('derby.database.classpath', 'APP.dbprocedures');</sqlCommand>
                         </configuration>
                     </execution>
                 </executions>
