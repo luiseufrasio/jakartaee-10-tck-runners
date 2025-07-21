@@ -12,26 +12,10 @@
     <artifactId>persistence-tck-runner-ee</artifactId>
 
     <properties>
-        <tck.root>${project.build.directory}</tck.root>
-        <tck.home>${project.build.directory}${file.separator}persistence-tck</tck.home>
-        <tck.home>${project.build.directory}/persistence-tck</tck.home>
         <payara.modules.dir>${payara.home}${file.separator}glassfish${file.separator}modules</payara.modules.dir>
 
-        <jdbc.db>derby</jdbc.db>
-        <jakarta.persistence.jdbc.driver>org.apache.derby.jdbc.ClientDriver</jakarta.persistence.jdbc.driver>
-        <jakarta.persistence.jdbc.url>jdbc:derby://localhost:1527/derbyDB;create=true</jakarta.persistence.jdbc.url>
-        <javadb.lib.dir>${payara.db.home}${file.separator}lib</javadb.lib.dir>
-        <jdbc.lib.classpath>${javadb.lib.dir}${file.separator}derbyclient.jar,${javadb.lib.dir}${file.separator}derbyshared.jar,${javadb.lib.dir}${file.separator}derbytools.jar</jdbc.lib.classpath>
-        <jdbc.driver.classes>${javadb.lib.dir}${file.separator}derbyclient.jar${path.separator}${javadb.lib.dir}${file.separator}derbyshared.jar${path.separator}${javadb.lib.dir}${file.separator}derbytools.jar</jdbc.driver.classes>
-        <derby.sql.dir>${project.build.directory}${file.separator}persistence-tck${file.separator}sql${file.separator}derby</derby.sql.dir>
-        <jpa.classes>${payara.modules.dir}${file.separator}jakarta.persistence-api.jar,${payara.modules.dir}${file.separator}org.eclipse.persistence.jpa.jar,${payara.modules.dir}${file.separator}jakarta.servlet-api.jar,${payara.modules.dir}${file.separator}jakarta.transaction-api.jar,${payara.modules.dir}${file.separator}jakarta.ejb-api.jar,${payara.modules.dir}${file.separator}org.eclipse.persistence.antlr.jar,${payara.modules.dir}${file.separator}org.eclipse.persistence.asm.jar,${payara.modules.dir}${file.separator}org.eclipse.persistence.core.jar,${payara.modules.dir}${file.separator}org.eclipse.persistence.dbws.jar,${payara.modules.dir}${file.separator}org.eclipse.persistence.jpa.jpql.jar,${payara.modules.dir}${file.separator}org.eclipse.persistence.jpa.modelgen.processor.jar,${payara.modules.dir}${file.separator}org.eclipse.persistence.moxy.jar,${payara.modules.dir}${file.separator}org.eclipse.persistence.oracle.jar,${payara.modules.dir}${file.separator}jboss-logging.jar,${payara.modules.dir}${file.separator}jakarta.el-api.jar,${payara.modules.dir}${file.separator}expressly.jar,${payara.modules.dir}${file.separator}classmate.jar,${payara.modules.dir}${file.separator}jakarta.validation-api.jar</jpa.classes>
-        <validator.classes>${payara.modules.dir}${file.separator}jakarta.validation-api.jar,${payara.modules.dir}${file.separator}hibernate-validator-cdi.jar,${payara.modules.dir}${file.separator}hibernate-validator.jar</validator.classes>
-        <jpa.provider.implementation.specific.properties/>
         <persistence.second.level.caching.supported>true</persistence.second.level.caching.supported>
         <db.supports.sequence>true</db.supports.sequence>
-        <db.delimiter>;</db.delimiter>
-        <jakarta.persistence.db.user></jakarta.persistence.db.user>
-        <jakarta.persistence.db.password>cts1</jakarta.persistence.db.password>
     </properties>
 
     <dependencyManagement>
@@ -170,21 +154,10 @@
     <build>
 
         <plugins>
-            <!-- Download Ant -->
             <plugin>
                 <groupId>com.googlecode.maven-download-plugin</groupId>
                 <artifactId>download-maven-plugin</artifactId>
                 <executions>
-                    <execution>
-                        <id>download-ant</id>
-                        <phase>generate-resources</phase>
-                        <goals>
-                            <goal>wget</goal>
-                        </goals>
-                        <configuration>
-                            <url>${ant.zip.url}</url>
-                        </configuration>
-                    </execution>
                     <execution>
                         <id>download-derby</id>
                         <phase>generate-resources</phase>
@@ -288,85 +261,6 @@
                         </configuration>
                     </execution>
 
-<!--                    <execution>-->
-<!--                        <id>initdb</id>-->
-<!--                        <phase>pre-integration-test</phase>-->
-<!--                        <goals>-->
-<!--                            <goal>run</goal>-->
-<!--                        </goals>-->
-<!--                        <configuration>-->
-<!--                            <target>-->
-<!--                                <path id="jdbc.classpath">-->
-<!--                                    <pathelement path="${jdbc.driver.classes}"/>-->
-<!--                                    <path refid="maven.runtime.classpath"/>-->
-<!--                                </path>-->
-<!--                                <sql autocommit="true" classpathref="jdbc.classpath" driver="${jakarta.persistence.jdbc.driver}" onerror="continue"-->
-<!--                                     url="${jakarta.persistence.jdbc.url}" userid="cts1" password="cts1">-->
-<!--                                    <transaction src="${derby.sql.dir}${file.separator}derby.ddl.persistence.sql"/>-->
-<!--                                </sql>-->
-<!--                            </target>-->
-<!--                        </configuration>-->
-<!--                    </execution>-->
-
-<!--                    <execution>-->
-<!--                        <id>initdb-sprocs</id>-->
-<!--                        <phase>pre-integration-test</phase>-->
-<!--                        <goals>-->
-<!--                            <goal>run</goal>-->
-<!--                        </goals>-->
-<!--                        <configuration>-->
-<!--                            <target>-->
-<!--                                <path id="jdbc.classpath">-->
-<!--                                    <pathelement path="${jdbc.driver.classes}"/>-->
-<!--                                    <path refid="maven.runtime.classpath"/>-->
-<!--                                </path>-->
-<!--                                <sql autocommit="true" classpathref="jdbc.classpath"-->
-<!--                                     driver="${jakarta.persistence.jdbc.driver}" onerror="continue"-->
-<!--                                     url="${jakarta.persistence.jdbc.url}" userid="cts1"-->
-<!--                                     password="cts1">-->
-<!--                                    <transaction src="${derby.sql.dir}${file.separator}derby.ddl.persistence.sprocs.sql"/>-->
-<!--                                </sql>-->
-<!--                            </target>-->
-<!--                        </configuration>-->
-<!--                    </execution>-->
-
-<!--                    <execution>-->
-<!--                        <id>install_java_procedures</id>-->
-<!--                        <phase>pre-integration-test</phase>-->
-<!--                        <goals>-->
-<!--                            <goal>run</goal>-->
-<!--                        </goals>-->
-<!--                        <configuration>-->
-<!--                            <target>-->
-<!--                                <path id="jdbc.classpath">-->
-<!--                                    <pathelement path="${jdbc.driver.classes}"/>-->
-<!--                                    <path refid="maven.runtime.classpath"/>-->
-<!--                                </path>-->
-<!--                                <sql autocommit="true" classpathref="jdbc.classpath" driver="${jakarta.persistence.jdbc.driver}" onerror="continue"-->
-<!--                                     url="${jakarta.persistence.jdbc.url}" userid="cts1" password="cts1">-->
-<!--                                    CALL sqlj.remove_jar('APP.dbprocedures', 0);-->
-<!--                                    CALL sqlj.install_jar('${project.build.directory}${file.separator}dbprocedures-${jakarta.tck.persistence.version}.jar', 'APP.dbprocedures', 0);-->
-<!--                                    CALL SYSCS_UTIL.SYSCS_SET_DATABASE_PROPERTY('derby.database.classpath', 'APP.dbprocedures');-->
-<!--                                </sql>-->
-<!--                            </target>-->
-<!--                        </configuration>-->
-<!--                    </execution>-->
-
-<!--                    <execution>-->
-<!--                        <id>initialise-database</id>-->
-<!--                        <phase>pre-integration-test</phase>-->
-<!--                        <goals>-->
-<!--                            <goal>run</goal>-->
-<!--                        </goals>-->
-<!--                        <configuration>-->
-<!--                            <target>-->
-<!--                                <sql autocommit="true" classpath="${jdbc.lib.classpath}" delimiter="${db.delimiter}" driver="org.apache.derby.jdbc.ClientDriver" onerror="continue" password="${jakarta.persistence.db.password}" url="${jakarta.persistence.jdbc.url}" userid="${jakarta.persistence.db.user}">-->
-<!--                                    <transaction src="${project.build.directory}${file.separator}test-classes${file.separator}derby.sql"/>-->
-<!--                                </sql>-->
-<!--                            </target>-->
-<!--                        </configuration>-->
-<!--                    </execution>-->
-
                     <execution>
                         <id>stop-database</id>
                         <phase>post-integration-test</phase>
@@ -431,9 +325,6 @@
                         <!-- SE Tests -->
                         <exclude>ee.jakarta.tck.persistence.se.entityManagerFactory.Client2</exclude>
                         <exclude>ee.jakarta.tck.persistence.se.pluggability.contracts.resource_local.Client</exclude>
-
-                        <!-- Signature Test -->
-<!--                        <exclude>ee.jakarta.tck.persistence.signaturetest.JPASigTest</exclude>-->
                     </excludes>
 
                     <systemPropertyVariables>
@@ -451,15 +342,15 @@
 
                         <jakarta.persistence.jdbc.driver>org.apache.derby.jdbc.ClientDriver</jakarta.persistence.jdbc.driver>
                         <jakarta.persistence.provider>org.eclipse.persistence.jpa.PersistenceProvider</jakarta.persistence.provider>
-                        <jakarta.persistence.jdbc.url>${jakarta.persistence.jdbc.url}</jakarta.persistence.jdbc.url>
+                        <jakarta.persistence.jdbc.url>jdbc:derby://localhost:1527/derbyDB;create=true</jakarta.persistence.jdbc.url>
                         <jakarta.persistence.jdbc.user>cts1</jakarta.persistence.jdbc.user>
                         <jakarta.persistence.jdbc.password>cts1</jakarta.persistence.jdbc.password>
 
-                        <jpa.provider.implementation.specific.properties>${jpa.provider.implementation.specific.properties}</jpa.provider.implementation.specific.properties>
+                        <jpa.provider.implementation.specific.properties></jpa.provider.implementation.specific.properties>
 
                         <db.supports.sequence>${db.supports.sequence}</db.supports.sequence>
 
-                        <jdbc.db>${jdbc.db}</jdbc.db>
+                        <jdbc.db>derby</jdbc.db>
 
                         <junit.log.traceflag>false</junit.log.traceflag>
                         <harness.log.traceflag>false</harness.log.traceflag>
@@ -485,22 +376,6 @@
                             </systemPropertyVariables>
                         </configuration>
                     </execution>
-                    <!-- SE Test
-                    <execution>
-                        <id>persistence-tests-2</id>
-                        <goals>
-                            <goal>integration-test</goal>
-                            <goal>verify</goal>
-                        </goals>
-                        <configuration>
-                            <test>**/ee/jakarta/tck/persistence/se/entityManagerFactory/Client2#createEntityManagerFactoryNoBeanValidatorTest</test>
-                            <additionalClasspathElements>
-                                <additionalClasspathElement>${jpa.classes}</additionalClasspathElement>
-                                <additionalClasspathElement>${jdbc.lib.classpath}</additionalClasspathElement>
-                            </additionalClasspathElements>
-                            <dependenciesToScan>jakarta.tck:persistence-tck-spec-tests</dependenciesToScan>
-                        </configuration>
-                    </execution> -->
                 </executions>
             </plugin>
             <plugin>
@@ -546,9 +421,6 @@
             </build>
         </profile>
 
-        <!--
-           Tests run: 238, Failures: 0, Errors: 0, Skipped: 0
-        -->
         <profile>
             <id>core1</id>
             <build>
