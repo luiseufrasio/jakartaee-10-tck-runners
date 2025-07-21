@@ -428,9 +428,11 @@
                 <configuration>
                     <dependenciesToScan>jakarta.tck:persistence-tck-spec-tests</dependenciesToScan>
                     <excludes>
-                        <!-- These tests for various reasons fail -->
+                        <!-- SE Tests -->
                         <exclude>ee.jakarta.tck.persistence.se.entityManagerFactory.Client2</exclude>
                         <exclude>ee.jakarta.tck.persistence.se.pluggability.contracts.resource_local.Client</exclude>
+
+                        <!-- Signature Test -->
                         <exclude>ee.jakarta.tck.persistence.signaturetest.JPASigTest</exclude>
                     </excludes>
 
@@ -456,17 +458,12 @@
                         <jpa.provider.implementation.specific.properties>${jpa.provider.implementation.specific.properties}</jpa.provider.implementation.specific.properties>
 
                         <db.supports.sequence>${db.supports.sequence}</db.supports.sequence>
-<!--                        <Insert_Jpa_Purchase_Order>INSERT INTO PURCHASE_ORDER(ID, TOTAL, DESCRIPTION) VALUES(?, ?, null)</Insert_Jpa_Purchase_Order>-->
-<!--                        <Select_Jpa_Purchase_Order>SELECT ID, TOTAL FROM PURCHASE_ORDER WHERE ID=?</Select_Jpa_Purchase_Order>-->
 
                         <jdbc.db>${jdbc.db}</jdbc.db>
 
                         <junit.log.traceflag>false</junit.log.traceflag>
                         <harness.log.traceflag>false</harness.log.traceflag>
                         <cts.harness.debug>false</cts.harness.debug>
-
-                        <!--                                <sigTestClasspath>${payara.modules.dir}${file.separator}jakarta.persistence-api.jar${path.separator}${project.build.directory}${file.separator}jdk11-bundle${file.separator}java.base${path.separator}${project.build.directory}${file.separator}jdk11-bundle${file.separator}java.rmi${path.separator}${project.build.directory}${file.separator}jdk11-bundle${file.separator}java.sql${path.separator}${project.build.directory}${file.separator}jdk11-bundle${file.separator}java.naming</sigTestClasspath>-->
-                        <!--                                <jimage.dir>${project.build.directory}${file.separator}jdk11-bundle</jimage.dir>-->
                     </systemPropertyVariables>
                 </configuration>
 
@@ -478,12 +475,6 @@
                             <goal>verify</goal>
                         </goals>
                         <configuration>
-<!--                            <includes>-->
-<!--                                <include>**/*Client*.*</include>-->
-<!--                                <include>**/*JPASigTest*.*</include>-->
-<!--                            </includes>-->
-<!--                            <test>!**/ee/jakarta/tck/persistence/se/entityManagerFactory/Client2#createEntityManagerFactoryNoBeanValidatorTest</test>-->
-
                             <systemPropertyVariables>
                                 <junit.jupiter.extensions.autodetection.enabled>true</junit.jupiter.extensions.autodetection.enabled>
                                 <arquillian.launch>payara</arquillian.launch>
@@ -494,6 +485,7 @@
                             </systemPropertyVariables>
                         </configuration>
                     </execution>
+                    <!-- SE Test
                     <execution>
                         <id>persistence-tests-2</id>
                         <goals>
@@ -508,7 +500,7 @@
                             </additionalClasspathElements>
                             <dependenciesToScan>jakarta.tck:persistence-tck-spec-tests</dependenciesToScan>
                         </configuration>
-                    </execution>
+                    </execution> -->
                 </executions>
             </plugin>
             <plugin>
@@ -543,6 +535,7 @@
                         <configuration>
                             <includes>
                                 <include>**/*Client*.*</include>
+                                <include>**/*JPASigTest*.*</include>
                             </includes>
                         </configuration>
                     </plugin>
@@ -572,9 +565,6 @@
             </build>
         </profile>
 
-        <!--
-            Tests run: 112, Failures: 0, Errors: 0, Skipped: 0
-        -->
         <profile>
             <id>core2</id>
             <build>
@@ -596,9 +586,6 @@
             </build>
         </profile>
 
-        <!--
-            Tests run: 521, Failures: 0, Errors: 0, Skipped: 1
-        -->
         <profile>
             <id>core3</id>
             <build>
@@ -622,9 +609,6 @@
             </build>
         </profile>
 
-        <!--
-            Tests run: 405, Failures: 0, Errors: 0, Skipped: 1
-        -->
         <profile>
             <id>core4</id>
             <build>
@@ -648,9 +632,6 @@
             </build>
         </profile>
 
-        <!--
-            Tests run: 684, Failures: 0, Errors: 0, Skipped: 0
-        -->
         <profile>
             <id>various</id>
             <build>
@@ -662,6 +643,22 @@
                                 <include>ee.jakarta.tck.persistence.core.criteriaapi.**</include>
                                 <include>ee.jakarta.tck.persistence.jpa22.**</include>
                                 <include>ee.jakarta.tck.persistence.entitytest.**</include>
+                            </includes>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+
+        <profile>
+            <id>signature</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <artifactId>maven-failsafe-plugin</artifactId>
+                        <configuration>
+                            <includes>
+                                <include>**/*JPASigTest*.*</include>
                             </includes>
                         </configuration>
                     </plugin>
