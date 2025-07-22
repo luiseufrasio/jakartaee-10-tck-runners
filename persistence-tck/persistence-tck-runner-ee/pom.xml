@@ -574,21 +574,6 @@
                                 <include>ee.jakarta.tck.persistence.core.criteriaapi.**</include>
                                 <include>ee.jakarta.tck.persistence.jpa22.**</include>
                                 <include>ee.jakarta.tck.persistence.entitytest.**</include>
-                            </includes>
-                        </configuration>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-
-        <profile>
-            <id>signature</id>
-            <build>
-                <plugins>
-                    <plugin>
-                        <artifactId>maven-failsafe-plugin</artifactId>
-                        <configuration>
-                            <includes>
                                 <include>**/*JPASigTest*.*</include>
                             </includes>
                         </configuration>
