@@ -344,6 +344,7 @@
                             </arguments>
                         </configuration>
                     </execution>
+                    <!-- We seem to need a big heap if running all tests in a single execution -->
                     <execution>
                         <id>set-Xmx-jvm-option</id>
                         <phase>pre-integration-test</phase>
@@ -393,6 +394,7 @@
                                 <exclude>ee.jakarta.tck.persistence.se.entityManagerFactory.Client2</exclude>
                                 <exclude>ee.jakarta.tck.persistence.se.pluggability.contracts.resource_local.Client</exclude>
                             </excludes>
+                            <!-- We seem to need a big heap if running all tests in a single execution -->
                             <argLine>-Xmx8192m</argLine>
                             <systemPropertyVariables>
                                 <payara.home>${payara.home}</payara.home>
