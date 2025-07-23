@@ -1,0 +1,588 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>fish.payara.jakarta.tests.tck</groupId>
+        <artifactId>persistence-tck</artifactId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
+
+    <artifactId>persistence-tck-runner-ee</artifactId>
+
+    <properties>
+        <skipDatabaseStartStop>${skipServerStartStop}</skipDatabaseStartStop>
+
+        <payara.modules.dir>${payara.home}${file.separator}glassfish${file.separator}modules</payara.modules.dir>
+
+        <persistence.second.level.caching.supported>true</persistence.second.level.caching.supported>
+        <db.supports.sequence>true</db.supports.sequence>
+    </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>fish.payara.api</groupId>
+                <artifactId>payara-bom</artifactId>
+                <version>${payara.version}</version>
+                <scope>import</scope>
+                <type>pom</type>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <dependencies>
+        <dependency>
+            <groupId>jakarta.persistence</groupId>
+            <artifactId>jakarta.persistence-api</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>jakarta.tck</groupId>
+            <artifactId>persistence-tck</artifactId>
+            <version>${jakarta.tck.persistence.version}</version>
+            <type>zip</type>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>jakarta.tck</groupId>
+            <artifactId>persistence-tck-common</artifactId>
+            <version>${jakarta.tck.persistence.version}</version>
+            <type>jar</type>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>jakarta.tck</groupId>
+            <artifactId>persistence-tck-spec-tests</artifactId>
+            <version>${jakarta.tck.persistence.version}</version>
+            <type>jar</type>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>jakarta.tck</groupId>
+            <artifactId>dbprocedures</artifactId>
+            <version>${jakarta.tck.persistence.version}</version>
+            <type>jar</type>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>jakarta.tck</groupId>
+            <artifactId>common</artifactId>
+            <version>${jakarta.tck.common.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>jakarta.tck</groupId>
+            <artifactId>sigtest-maven-plugin</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>jakarta.tck</groupId>
+            <artifactId>signaturetest</artifactId>
+            <version>${jakarta.tck.signaturetest.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>fish.payara.jakarta.tests.tck</groupId>
+            <artifactId>persistence-tck-arquillian-extension</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.jboss.arquillian.container</groupId>
+            <artifactId>arquillian-container-test-spi</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.jboss.arquillian.junit5</groupId>
+            <artifactId>arquillian-junit5-core</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.jboss.arquillian.junit5</groupId>
+            <artifactId>arquillian-junit5-container</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-jdk14</artifactId>
+            <version>2.0.13</version>
+        </dependency>
+        <dependency>
+            <groupId>fish.payara.arquillian</groupId>
+            <artifactId>payara-client-ee11</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.jboss.shrinkwrap.resolver</groupId>
+            <artifactId>shrinkwrap-resolver-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.jboss.shrinkwrap.resolver</groupId>
+            <artifactId>shrinkwrap-resolver-impl-maven</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.jboss.shrinkwrap.resolver</groupId>
+            <artifactId>shrinkwrap-resolver-api-maven</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.jboss.shrinkwrap.resolver</groupId>
+            <artifactId>shrinkwrap-resolver-spi-maven</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.derby</groupId>
+            <artifactId>derbyclient</artifactId>
+            <version>${derby.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.derby</groupId>
+            <artifactId>derbytools</artifactId>
+            <version>${derby.version}</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>com.googlecode.maven-download-plugin</groupId>
+                <artifactId>download-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>download-derby</id>
+                        <phase>generate-resources</phase>
+                        <goals>
+                            <goal>wget</goal>
+                        </goals>
+                        <configuration>
+                            <url>${derby.zip.url}</url>
+                        </configuration>
+                    </execution>
+                </executions>
+                <configuration>
+                    <skip>${skipTests}</skip>
+                    <unpack>true</unpack>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>unpack-persistence-tck</id>
+                        <goals>
+                            <goal>unpack</goal>
+                        </goals>
+                        <phase>pre-integration-test</phase>
+                        <configuration>
+                            <skip>${skipTests}</skip>
+                            <artifactItems>
+                                <artifactItem>
+                                    <groupId>jakarta.tck</groupId>
+                                    <artifactId>persistence-tck</artifactId>
+                                    <version>${jakarta.tck.persistence.version}</version>
+                                    <type>zip</type>
+                                    <overWrite>true</overWrite>
+                                </artifactItem>
+                            </artifactItems>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>copy-dbprocedures-jar</id>
+                        <goals>
+                            <goal>copy</goal>
+                        </goals>
+                        <phase>pre-integration-test</phase>
+                        <configuration>
+                            <skip>${skipConfig}</skip>
+                            <artifactItems>
+                                <artifactItem>
+                                    <groupId>jakarta.tck</groupId>
+                                    <artifactId>dbprocedures</artifactId>
+                                    <version>${jakarta.tck.persistence.version}</version>
+                                    <type>jar</type>
+                                    <overWrite>true</overWrite>
+                                    <outputDirectory>${project.build.directory}</outputDirectory>
+                                    <destFileName>dbprocedures.jar</destFileName>
+                                </artifactItem>
+                            </artifactItems>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>copy-derby-to-payara</id>
+                        <phase>pre-integration-test</phase>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                        <configuration>
+                            <skip>${skipConfig}</skip>
+                            <target>
+                                <move todir="${payara.home}${file.separator}javadb">
+                                    <fileset dir="${project.build.directory}${file.separator}db-derby-${derby.version}-bin"/>
+                                </move>
+                                <copy file="${payara.home}${file.separator}javadb${file.separator}lib${file.separator}derbytools.jar"
+                                      todir="${payara.home}${file.separator}glassfish${file.separator}domains${file.separator}domain1${file.separator}lib"/>
+                                <copy file="${payara.home}${file.separator}javadb${file.separator}lib${file.separator}derbyclient.jar"
+                                      todir="${payara.home}${file.separator}glassfish${file.separator}domains${file.separator}domain1${file.separator}lib"/>
+                                <copy file="${payara.home}${file.separator}javadb${file.separator}lib${file.separator}derbyshared.jar"
+                                      todir="${payara.home}${file.separator}glassfish${file.separator}domains${file.separator}domain1${file.separator}lib"/>
+                            </target>
+                        </configuration>
+                    </execution>
+
+                    <execution>
+                        <id>start-database</id>
+                        <phase>pre-integration-test</phase>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                        <configuration>
+                            <skip>${skipDatabaseStartStop}</skip>
+                            <target>
+                                <exec executable="${payara.db.home}${file.separator}bin${file.separator}startNetworkServer${script.extension}" spawn="true" dir="${payara.db.home}"/>
+                                <echo message="Waiting 3 seconds for database in forked process to start..."/>
+                                <sleep seconds="3"/>
+                            </target>
+                        </configuration>
+                    </execution>
+
+                    <execution>
+                        <id>stop-database</id>
+                        <phase>post-integration-test</phase>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                        <configuration>
+                            <skip>${skipDatabaseStartStop}</skip>
+                            <target>
+                                <exec executable="${payara.db.home}${file.separator}bin${file.separator}stopNetworkServer${script.extension}"/>
+                            </target>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>sql-maven-plugin</artifactId>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.apache.derby</groupId>
+                        <artifactId>derbyclient</artifactId>
+                        <version>${derby.version}</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>org.apache.derby</groupId>
+                        <artifactId>derbytools</artifactId>
+                        <version>${derby.version}</version>
+                    </dependency>
+                </dependencies>
+                <executions>
+                    <execution>
+                        <id>init-derby</id>
+                        <goals>
+                            <goal>execute</goal>
+                        </goals>
+                        <phase>pre-integration-test</phase>
+                        <configuration>
+                            <skip>${skipConfig}</skip>
+                            <driver>org.apache.derby.jdbc.ClientDriver</driver>
+                            <url>jdbc:derby://localhost:1527/derbyDB;create=true</url>
+                            <username>CTS1</username>
+                            <password>CTS1</password>
+                            <autocommit>true</autocommit>
+                            <delimiter>;</delimiter>
+                            <onError>continue</onError>
+                            <srcFiles>
+                                <srcFile>${project.build.directory}${file.separator}test-classes${file.separator}derby.sql</srcFile>
+                            </srcFiles>
+                            <sqlCommand>
+                                CREATE SCHEMA CTS1 AUTHORIZATION CTS1;
+                                CALL sqlj.remove_jar('APP.dbprocedures', 0);
+                                CALL sqlj.install_jar('${project.build.directory}/dbprocedures.jar', 'APP.dbprocedures', 0);
+                                CALL SYSCS_UTIL.SYSCS_SET_DATABASE_PROPERTY('derby.database.classpath', 'APP.dbprocedures');
+                            </sqlCommand>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>start-payara-server-for-config</id>
+                        <phase>pre-integration-test</phase>
+                        <goals>
+                            <goal>exec</goal>
+                        </goals>
+                        <configuration>
+                            <skip>${skipServerStartStop}</skip>
+                            <executable>${payara.asadmin}</executable>
+                            <arguments>
+                                <argument>start-domain</argument>
+                            </arguments>
+                        </configuration>
+                    </execution>
+                    <!-- We seem to need a big heap if running all tests in a single execution -->
+                    <execution>
+                        <id>set-Xmx-jvm-option</id>
+                        <phase>pre-integration-test</phase>
+                        <goals>
+                            <goal>exec</goal>
+                        </goals>
+                        <configuration>
+                            <skip>${skipConfig}</skip>
+                            <executable>${payara.asadmin}</executable>
+                            <arguments>
+                                <argument>create-jvm-option</argument>
+                                <argument>-Xmx4096m</argument>
+                            </arguments>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>stop-payara-server-after-config</id>
+                        <phase>pre-integration-test</phase>
+                        <goals>
+                            <goal>exec</goal>
+                        </goals>
+                        <configuration>
+                            <skip>${skipServerStartStop}</skip>
+                            <executable>${payara.asadmin}</executable>
+                            <arguments>
+                                <argument>stop-domain</argument>
+                            </arguments>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-failsafe-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>persistence-tests</id>
+                        <goals>
+                            <goal>integration-test</goal>
+                            <goal>verify</goal>
+                        </goals>
+                        <configuration>
+                            <dependenciesToScan>jakarta.tck:persistence-tck-spec-tests</dependenciesToScan>
+                            <excludes>
+                                <!-- SE Tests -->
+                                <exclude>ee.jakarta.tck.persistence.se.entityManagerFactory.Client2</exclude>
+                                <exclude>ee.jakarta.tck.persistence.se.pluggability.contracts.resource_local.Client</exclude>
+                            </excludes>
+                            <!-- We seem to need a big heap if running all tests in a single execution -->
+                            <argLine>-Xmx8192m</argLine>
+                            <systemPropertyVariables>
+                                <payara.home>${payara.home}</payara.home>
+
+                                <user.dir>/tmp</user.dir>
+                                <log.file.location>/tmp</log.file.location>
+
+                                <platform.mode>standalone</platform.mode>
+                                <vehicle>standalone</vehicle>
+
+                                <persistence.unit.name>JPATCK</persistence.unit.name>
+                                <persistence.unit.name.2>JPATCK2</persistence.unit.name.2>
+                                <persistence.second.level.caching.supported>${persistence.second.level.caching.supported}</persistence.second.level.caching.supported>
+
+                                <jakarta.persistence.jdbc.driver>org.apache.derby.jdbc.ClientDriver</jakarta.persistence.jdbc.driver>
+                                <jakarta.persistence.provider>org.eclipse.persistence.jpa.PersistenceProvider</jakarta.persistence.provider>
+                                <jakarta.persistence.jdbc.url>jdbc:derby://localhost:1527/derbyDB;create=true</jakarta.persistence.jdbc.url>
+                                <jakarta.persistence.jdbc.user>cts1</jakarta.persistence.jdbc.user>
+                                <jakarta.persistence.jdbc.password>cts1</jakarta.persistence.jdbc.password>
+
+                                <jpa.provider.implementation.specific.properties></jpa.provider.implementation.specific.properties>
+
+                                <db.supports.sequence>${db.supports.sequence}</db.supports.sequence>
+
+                                <jdbc.db>derby</jdbc.db>
+
+                                <junit.log.traceflag>false</junit.log.traceflag>
+                                <harness.log.traceflag>false</harness.log.traceflag>
+                                <cts.harness.debug>false</cts.harness.debug>
+
+                                <junit.jupiter.extensions.autodetection.enabled>true</junit.jupiter.extensions.autodetection.enabled>
+                                <arquillian.launch>payara</arquillian.launch>
+                                <arquillian.extension.coordinatePrefixesToIgnore>!org.jboss.shrinkwrap,org.glassfish,org.apache.derby,org.eclipse.persistence,jakarta,!jakarta.tck,org.javassis,aopalliance,eu.maveniverse,javax,org.eclipse.sisu,org.apache.ant</arquillian.extension.coordinatePrefixesToIgnore>
+
+                                <sigTestClasspath>${payara.modules.dir}${file.separator}jakarta.persistence-api.jar${path.separator}${payara.modules.dir}${file.separator}org.eclipse.persistence.jpa.jar${path.separator}${payara.modules.dir}${file.separator}jakarta.transaction-api.jar${path.separator}${payara.modules.dir}${file.separator}jakarta.ejb-api.jar${path.separator}${payara.modules.dir}${file.separator}org.eclipse.persistence.antlr.jar${path.separator}${payara.modules.dir}${file.separator}org.eclipse.persistence.asm.jar${path.separator}${payara.modules.dir}${file.separator}org.eclipse.persistence.core.jar${path.separator}${payara.modules.dir}${file.separator}org.eclipse.persistence.dbws.jar${path.separator}${payara.modules.dir}${file.separator}org.eclipse.persistence.jpa.jpql.jar${path.separator}${payara.modules.dir}${file.separator}org.eclipse.persistence.jpa.modelgen.processor.jar${path.separator}${payara.modules.dir}${file.separator}org.eclipse.persistence.moxy.jar${path.separator}${payara.modules.dir}${file.separator}org.eclipse.persistence.oracle.jar${path.separator}${payara.modules.dir}${file.separator}jboss-logging.jar${path.separator}${payara.modules.dir}${file.separator}jakarta.el-api.jar${path.separator}${payara.modules.dir}${file.separator}expressly.jar${path.separator}${payara.modules.dir}${file.separator}classmate.jar${path.separator}${payara.modules.dir}${file.separator}jakarta.validation-api.jar</sigTestClasspath>
+                                <exclude.plugin>org.glassfish.persistence.tck.SigTestArgumentsModifier</exclude.plugin>
+                            </systemPropertyVariables>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-report-plugin</artifactId>
+                <configuration>
+                    <linkXRef>false</linkXRef>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>generate-failsafe-html-report</id>
+                        <phase>post-integration-test</phase>
+                        <goals>
+                            <goal>failsafe-report-only</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${project.build.directory}/test-reports</outputDirectory>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
+    <profiles>
+        <profile>
+            <id>all</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <artifactId>maven-failsafe-plugin</artifactId>
+                        <configuration>
+                            <includes>
+                                <include>**/*Client*.*</include>
+                                <include>**/*JPASigTest*.*</include>
+                            </includes>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+
+        <profile>
+            <id>core1</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <artifactId>maven-failsafe-plugin</artifactId>
+                        <configuration>
+                            <includes>
+                                <include>ee.jakarta.tck.persistence.core.annotations.**</include>
+                                <include>ee.jakarta.tck.persistence.core.basic.**</include>
+                                <include>ee.jakarta.tck.persistence.core.cache.basicTests.**</include>
+                                <include>ee.jakarta.tck.persistence.core.callback.**</include>
+                            </includes>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+
+        <profile>
+            <id>core2</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <artifactId>maven-failsafe-plugin</artifactId>
+                        <configuration>
+                            <includes>
+                                <include>ee.jakarta.tck.persistence.core.derivedid.**</include>
+                                <include>ee.jakarta.tck.persistence.core.EntityGraph.**</include>
+                                <include>ee.jakarta.tck.persistence.core.entityManager.**</include>
+                                <include>ee.jakarta.tck.persistence.core.entityManager2.**</include>
+                                <include>ee.jakarta.tck.persistence.core.entityManagerFactory.**</include>
+                                <include>ee.jakarta.tck.persistence.core.entityManagerFactoryCloseExceptions.**</include>
+                            </includes>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+
+        <profile>
+            <id>core3</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <artifactId>maven-failsafe-plugin</artifactId>
+                        <configuration>
+                            <includes>
+                                <include>ee.jakarta.tck.persistence.core.entitytest.**</include>
+                                <include>ee.jakarta.tck.persistence.core.entityTransaction.**</include>
+                                <include>ee.jakarta.tck.persistence.core.enums.**</include>
+                                <include>ee.jakarta.tck.persistence.core.exceptions.**</include>
+                                <include>ee.jakarta.tck.persistence.core.inheritance.**</include>
+                                <include>ee.jakarta.tck.persistence.core.lock.**</include>
+                                <include>ee.jakarta.tck.persistence.core.metamodelapi.**</include>
+                                <include>ee.jakarta.tck.persistence.core.nestedembedding.**</include>
+                            </includes>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+
+        <profile>
+            <id>core4</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <artifactId>maven-failsafe-plugin</artifactId>
+                        <configuration>
+                            <includes>
+                                <include>ee.jakarta.tck.persistence.core.override.**</include>
+                                <include>ee.jakarta.tck.persistence.core.persistenceUnitUtil.**</include>
+                                <include>ee.jakarta.tck.persistence.core.persistenceUtil.**</include>
+                                <include>ee.jakarta.tck.persistence.core.query.**</include>
+                                <include>ee.jakarta.tck.persistence.core.relationship.**</include>
+                                <include>ee.jakarta.tck.persistence.core.StoredProcedureQuery.**</include>
+                                <include>ee.jakarta.tck.persistence.core.types.**</include>
+                                <include>ee.jakarta.tck.persistence.core.versioning.**</include>
+                            </includes>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+
+        <profile>
+            <id>various</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <artifactId>maven-failsafe-plugin</artifactId>
+                        <configuration>
+                            <includes>
+                                <include>ee.jakarta.tck.persistence.core.criteriaapi.**</include>
+                                <include>ee.jakarta.tck.persistence.jpa22.**</include>
+                                <include>ee.jakarta.tck.persistence.entitytest.**</include>
+                                <include>**/*JPASigTest*.*</include>
+                            </includes>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
+
+</project>
