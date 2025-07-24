@@ -362,6 +362,7 @@
         <module>xa-platform-tck</module>
         <module>javaee-module-tck</module>
         <module>signature-tck</module>
+        <module>xml-binding-tck</module>
     </modules>
 
     <dependencyManagement>
