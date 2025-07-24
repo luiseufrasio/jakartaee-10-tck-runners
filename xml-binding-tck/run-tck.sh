@@ -23,7 +23,7 @@ WORKSPACE="$( cd "$(dirname "$0")" ; pwd -P )"/target
 PAYARA_HOME=$1
 
 # If provided, set concurrent threads
-if [ $# == 2 ]
+if [ $# == 2 ]; then
   CONCURRENT_THREADS=$2
 fi
 
@@ -36,7 +36,7 @@ sed -i "s#^TESTSUITE=.*#TESTSUITE=${WORKSPACE}/${TCK_NAME}/#g" ${WORKSPACE}/${TC
 sed -i "s#^jck.env.jaxb.testExecute.otherEnvVars=.*#jck.env.jaxb.testExecute.otherEnvVars=JAVA_HOME\=${JAVA_HOME} JAXB_HOME=${PAYARA_HOME}/glassfish#g" ${WORKSPACE}/${TCK_NAME}/lib/javasoft-multiJVM.jti
 
 # If provided, set concurrent threads
-if [ $# == 2 ]
+if [ $# == 2 ]; then
   sed -i "s#^jck.concurrency.concurrency=.*#jck.concurrency.concurrency=${CONCURRENT_THREADS}#g" ${WORKSPACE}/${TCK_NAME}/lib/javasoft-multiJVM.jti
 fi
 
