@@ -90,7 +90,7 @@
                         <configuration>
                             <skip>${skipTests}</skip>
                             <executable>${scriptExecutor}</executable>
-                            <commandlineArgs>${basedir}${file.separator}run-tck.${scriptExtension}</commandlineArgs>
+                            <commandlineArgs>${basedir}${file.separator}run-tck.${scriptExtension} ${payara.home}</commandlineArgs>
                         </configuration>
                     </execution>
                 </executions>

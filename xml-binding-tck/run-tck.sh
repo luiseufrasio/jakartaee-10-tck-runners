@@ -20,10 +20,7 @@ TCK_NAME=xml-binding-tck
 # Set workspace relative to the location of the script
 WORKSPACE="$( cd "$(dirname "$0")" ; pwd -P )"/target
 
-# If not set, assume default managed profile location relative to location of the script
-if [ -z "$PAYARA_HOME" ]; then
-  export PAYARA_HOME="$( cd "$(dirname "$0")" ; pwd -P )"/../target/payara7
-fi
+PAYARA_HOME=$1
 
 sed -i "s#^finder=.*#finder=com.sun.javatest.finder.BinaryTestFinder -binary ${WORKSPACE}/${TCK_NAME}/tests/testsuite.jtd#g" ${WORKSPACE}/${TCK_NAME}/testsuite.jtt
 sed -i "s#^jck.env.jaxb.classes.jaxbClasses=.*#jck.env.jaxb.classes.jaxbClasses=${PAYARA_HOME}/glassfish/modules/jakarta.xml.bind-api.jar ${PAYARA_HOME}/glassfish/modules/jaxb-osgi.jar ${PAYARA_HOME}/glassfish/modules/jersey-media-jaxb.jar ${PAYARA_HOME}/glassfish/modules/jakarta.activation-api.jar ${WORKSPACE}/checker.jar#g" ${WORKSPACE}/${TCK_NAME}/lib/javasoft-multiJVM.jti
