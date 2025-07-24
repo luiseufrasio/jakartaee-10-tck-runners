@@ -36,10 +36,11 @@ cat ${WORKSPACE}/${TCK_NAME}/lib/javasoft-multiJVM.jti
 
 cd ${WORKSPACE}
 
+echo "PAYARA_HOME=${PAYARA_HOME}"
 echo "ANT_HOME=$ANT_HOME"
-echo "export JAVA_HOME=$JAVA_HOME"
-echo "export MAVEN_HOME=$MAVEN_HOME"
-echo "export PATH=$PATH"
+echo "JAVA_HOME=$JAVA_HOME"
+echo "MAVEN_HOME=$MAVEN_HOME"
+echo "PATH=$PATH"
 
 #export TCK_ROOT=${WORKSPACE}
 export JAVA_TOOL_OPTIONS="-Dfile.encoding=UTF8"
