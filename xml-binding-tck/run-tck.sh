@@ -38,6 +38,7 @@ sed -i "s#^jck.env.jaxb.testExecute.cmdAsFile=.*#jck.env.jaxb.testExecute.cmdAsF
 sed -i "s#^WORKDIR=.*#WORKDIR=${WORKSPACE}/${TCK_NAME}/batch-multiJVM/work/#g" ${WORKSPACE}/${TCK_NAME}/lib/javasoft-multiJVM.jti
 sed -i "s#^TESTSUITE=.*#TESTSUITE=${WORKSPACE}/${TCK_NAME}/#g" ${WORKSPACE}/${TCK_NAME}/lib/javasoft-multiJVM.jti
 sed -i "s#^jck.env.jaxb.testExecute.otherEnvVars=.*#jck.env.jaxb.testExecute.otherEnvVars=JAVA_HOME\=${JAVA_HOME} JAXB_HOME=${PAYARA_HOME}/glassfish#g" ${WORKSPACE}/${TCK_NAME}/lib/javasoft-multiJVM.jti
+sed -i "s#^jck.env.jaxb.schemagen.run.jxcCmd=.*#jck.env.jaxb.schemagen.run.jxcCmd=/bin/sh linux/bin/schemagen.sh#g" ${WORKSPACE}/${TCK_NAME}/lib/javasoft-multiJVM.jti
 
 # If provided, set concurrent threads
 if [ $# == 2 ]; then
