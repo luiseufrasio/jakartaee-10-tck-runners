@@ -27,7 +27,6 @@ if [ $# == 2 ]; then
   CONCURRENT_THREADS=$2
 fi
 
-
 sed -i "s#^finder=.*#finder=com.sun.javatest.finder.BinaryTestFinder -binary ${WORKSPACE}/${TCK_NAME}/tests/testsuite.jtd#g" ${WORKSPACE}/${TCK_NAME}/testsuite.jtt
 sed -i "s#^jck.env.jaxb.classes.jaxbClasses=.*#jck.env.jaxb.classes.jaxbClasses=${PAYARA_HOME}/glassfish/modules/jakarta.xml.bind-api.jar ${PAYARA_HOME}/glassfish/modules/jaxb-osgi.jar ${PAYARA_HOME}/glassfish/modules/jersey-media-jaxb.jar ${PAYARA_HOME}/glassfish/modules/jakarta.activation-api.jar ${WORKSPACE}/checker.jar#g" ${WORKSPACE}/${TCK_NAME}/lib/javasoft-multiJVM.jti
 sed -i "s#^jck.env.jaxb.testExecute.cmdAsFile=.*#jck.env.jaxb.testExecute.cmdAsFile=${JAVA_HOME}/bin/java#g" ${WORKSPACE}/${TCK_NAME}/lib/javasoft-multiJVM.jti
@@ -55,9 +54,6 @@ export JAVA_TOOL_OPTIONS="-Dfile.encoding=UTF8"
 
 wget --progress=bar:force --no-cache https://repo1.maven.org/maven2/org/checkerframework/checker/3.5.0/checker-3.5.0.jar -O ${WORKSPACE}/checker.jar
 
-# unzip -q -o latest-glassfish.zip
-#chmod -R 777 ${PAYARA_HOME}
-
 mkdir -p JAXB_REPORT/JAXB-TCK
 
 cd ${TCK_NAME}/tests/api/signaturetest
@@ -71,7 +67,7 @@ java -jar ${WORKSPACE}/${TCK_NAME}/lib/javatest.jar -workdir ${WORKSPACE}/batch-
 export HOST=`hostname -f`
 echo "1 JAXB-TCK ${HOST}" > ${WORKSPACE}/args.txt
 mkdir -p ${WORKSPACE}/results/junitreports/
-java -Djunit.embed.sysout=true -jar ${WORKSPACE}/docker/JTReportParser/JTReportParser.jar ${WORKSPACE}/args.txt ${WORKSPACE}/JAXB_REPORT ${WORKSPACE}/results/junitreports/
+java -Djunit.embed.sysout=true -jar ${WORKSPACE}/../JTReportParser.jar ${WORKSPACE}/args.txt ${WORKSPACE}/JAXB_REPORT ${WORKSPACE}/results/junitreports/
 rm -f ${WORKSPACE}/args.txt
 cd ${WORKSPACE}
 tar zcvf jaxbtck-results.tar.gz ${WORKSPACE}/JAXB_REPORT ${WORKSPACE}/batch-multiJVM/work ${WORKSPACE}/results/junitreports/
