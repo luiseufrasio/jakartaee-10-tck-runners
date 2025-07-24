@@ -21,7 +21,12 @@ TCK_NAME=xml-binding-tck
 WORKSPACE="$( cd "$(dirname "$0")" ; pwd -P )"/target
 
 PAYARA_HOME=$1
-CONCURRENT_THREADS=$2
+
+# If provided, set concurrent threads
+if [ $# == 2 ]
+  CONCURRENT_THREADS=$2
+fi
+
 
 sed -i "s#^finder=.*#finder=com.sun.javatest.finder.BinaryTestFinder -binary ${WORKSPACE}/${TCK_NAME}/tests/testsuite.jtd#g" ${WORKSPACE}/${TCK_NAME}/testsuite.jtt
 sed -i "s#^jck.env.jaxb.classes.jaxbClasses=.*#jck.env.jaxb.classes.jaxbClasses=${PAYARA_HOME}/glassfish/modules/jakarta.xml.bind-api.jar ${PAYARA_HOME}/glassfish/modules/jaxb-osgi.jar ${PAYARA_HOME}/glassfish/modules/jersey-media-jaxb.jar ${PAYARA_HOME}/glassfish/modules/jakarta.activation-api.jar ${WORKSPACE}/checker.jar#g" ${WORKSPACE}/${TCK_NAME}/lib/javasoft-multiJVM.jti
@@ -29,7 +34,11 @@ sed -i "s#^jck.env.jaxb.testExecute.cmdAsFile=.*#jck.env.jaxb.testExecute.cmdAsF
 sed -i "s#^WORKDIR=.*#WORKDIR=${WORKSPACE}/${TCK_NAME}/batch-multiJVM/work/#g" ${WORKSPACE}/${TCK_NAME}/lib/javasoft-multiJVM.jti
 sed -i "s#^TESTSUITE=.*#TESTSUITE=${WORKSPACE}/${TCK_NAME}/#g" ${WORKSPACE}/${TCK_NAME}/lib/javasoft-multiJVM.jti
 sed -i "s#^jck.env.jaxb.testExecute.otherEnvVars=.*#jck.env.jaxb.testExecute.otherEnvVars=JAVA_HOME\=${JAVA_HOME} JAXB_HOME=${PAYARA_HOME}/glassfish#g" ${WORKSPACE}/${TCK_NAME}/lib/javasoft-multiJVM.jti
-sed -i "s#^jck.concurrency.concurrency=.*#jck.concurrency.concurrency=${CONCURRENT_THREADS}#g" ${WORKSPACE}/${TCK_NAME}/lib/javasoft-multiJVM.jti
+
+# If provided, set concurrent threads
+if [ $# == 2 ]
+  sed -i "s#^jck.concurrency.concurrency=.*#jck.concurrency.concurrency=${CONCURRENT_THREADS}#g" ${WORKSPACE}/${TCK_NAME}/lib/javasoft-multiJVM.jti
+fi
 
 cat ${WORKSPACE}/${TCK_NAME}/lib/javasoft-multiJVM.jti
 
