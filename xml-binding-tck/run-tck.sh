@@ -20,7 +20,12 @@ TCK_NAME=xml-binding-tck
 # Set workspace relative to the location of the script
 WORKSPACE="$( cd "$(dirname "$0")" ; pwd -P )"/target
 
-PAYARA_HOME=$1
+# If not provided, default to where payara-server-managed would be unpacked
+if [ $# -gt 0 ]; then
+  PAYARA_HOME=$1
+else
+  PAYARA_HOME="$( cd "$(dirname "$0")" ; pwd -P )"../target/payara7
+fi
 
 # If provided, set concurrent threads
 if [ $# == 2 ]; then
