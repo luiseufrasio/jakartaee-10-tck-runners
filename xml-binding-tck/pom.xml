@@ -16,6 +16,8 @@
         <scriptExecutor>bash</scriptExecutor>
         <scriptExtension>sh</scriptExtension>
 
+        <checker.version>3.5.0</checker.version>
+
         <concurrent.threads>1</concurrent.threads>
     </properties>
 
@@ -25,6 +27,12 @@
             <artifactId>jakarta-xml-binding-tck</artifactId>
             <version>${jakarta.tck.xml-binding.version}</version>
             <type>zip</type>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.checkerframework</groupId>
+            <artifactId>checker</artifactId>
+            <version>${checker.version}</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
@@ -74,6 +82,26 @@
                                 </artifactItem>
                             </artifactItems>
                             <outputDirectory>${project.build.directory}</outputDirectory>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>copy-checker.jar</id>
+                        <phase>pre-integration-test</phase>
+                        <goals>
+                            <goal>copy</goal>
+                        </goals>
+                        <configuration>
+                            <skip>${skipTests}</skip>
+                            <artifactItems>
+                                <artifactItem>
+                                    <groupId>org.checkerframework</groupId>
+                                    <artifactId>checker</artifactId>
+                                    <version>${checker.version}</version>
+                                    <overWrite>true</overWrite>
+                                </artifactItem>
+                            </artifactItems>
+                            <outputDirectory>${project.build.directory}</outputDirectory>
+                            <stripVersion>true</stripVersion>
                         </configuration>
                     </execution>
                 </executions>

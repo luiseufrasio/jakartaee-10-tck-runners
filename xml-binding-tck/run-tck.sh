@@ -57,8 +57,6 @@ echo "PATH=$PATH"
 
 export JAVA_TOOL_OPTIONS="-Dfile.encoding=UTF8"
 
-wget --progress=bar:force --no-cache https://repo1.maven.org/maven2/org/checkerframework/checker/3.5.0/checker-3.5.0.jar -O ${WORKSPACE}/checker.jar
-
 mkdir -p JAXB_REPORT/JAXB-TCK
 
 cd ${TCK_NAME}/tests/api/signaturetest
