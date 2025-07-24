@@ -55,7 +55,6 @@ echo "JAVA_HOME=$JAVA_HOME"
 echo "MAVEN_HOME=$MAVEN_HOME"
 echo "PATH=$PATH"
 
-#export TCK_ROOT=${WORKSPACE}
 export JAVA_TOOL_OPTIONS="-Dfile.encoding=UTF8"
 
 wget --progress=bar:force --no-cache https://repo1.maven.org/maven2/org/checkerframework/checker/3.5.0/checker-3.5.0.jar -O ${WORKSPACE}/checker.jar
