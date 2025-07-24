@@ -18,7 +18,7 @@
 TCK_NAME=xml-binding-tck
 
 # Set workspace relative to the location of the script
-WORKSPACE="$( cd "$(dirname "$0")" ; pwd -P )"/target/
+WORKSPACE="$( cd "$(dirname "$0")" ; pwd -P )"/target
 
 # If not set, assume default managed profile location relative to location of the script
 if [ -z "$PAYARA_HOME" ]; then
