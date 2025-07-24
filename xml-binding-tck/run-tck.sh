@@ -46,7 +46,7 @@ export JAVA_TOOL_OPTIONS="-Dfile.encoding=UTF8"
 
 wget --progress=bar:force --no-cache https://repo1.maven.org/maven2/org/checkerframework/checker/3.5.0/checker-3.5.0.jar -O ${WORKSPACE}/checker.jar
 
-unzip -q -o latest-glassfish.zip
+# unzip -q -o latest-glassfish.zip
 #chmod -R 777 ${PAYARA_HOME}
 
 mkdir -p JAXB_REPORT/JAXB-TCK
