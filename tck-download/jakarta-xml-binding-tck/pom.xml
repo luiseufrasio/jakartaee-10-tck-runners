@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>fish.payara.jakarta.tests.tck</groupId>
+        <artifactId>tck-download</artifactId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
+
+    <artifactId>jakarta-xml-binding-tck</artifactId>
+    <packaging>pom</packaging>
+    <name>TCK: Install Jakarta XML Binding TCK</name>
+
+    <properties>
+        <tck.test.xml-binding.file>jakarta-xml-binding-tck-${jakarta.tck.xml-binding.version}.zip</tck.test.xml-binding.file>
+        <tck.test.xml-binding.url>https://download.eclipse.org/jakartaee/xml-binding/4.0/${tck.test.xml-binding.file}</tck.test.xml-binding.url>
+    </properties>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>com.googlecode.maven-download-plugin</groupId>
+                <artifactId>download-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>download-xml-binding-tck</id>
+                        <phase>generate-resources</phase>
+                        <goals>
+                            <goal>wget</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <skipCache>true</skipCache>
+                    <overwrite>true</overwrite>
+                    <url>${tck.test.xml-binding.url}</url>
+                    <unpack>false</unpack>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-install-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>install-xml-binding-tck</id>
+                        <phase>process-resources</phase>
+                        <goals>
+                            <goal>install-file</goal>
+                        </goals>
+                        <configuration>
+                            <file>${project.build.directory}/${tck.test.xml-binding.file}</file>
+                            <groupId>jakarta.tck</groupId>
+                            <artifactId>jakarta-xml-binding-tck</artifactId>
+                            <version>${jakarta.tck.xml-binding.version}</version>
+                            <packaging>zip</packaging>
+                            <generatePom>true</generatePom>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>
