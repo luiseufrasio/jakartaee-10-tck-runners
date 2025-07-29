@@ -138,6 +138,7 @@
                         <!-- tag::profile[] -->
                         <!-- Optional, Arquillian will deploy artifacts by default -->
                         <jakarta.tck.skip.deployment>false</jakarta.tck.skip.deployment>
+                        <junit.jupiter.extensions.autodetection.enabled>true</junit.jupiter.extensions.autodetection.enabled>
                         <!-- end::profile[] -->
                     </systemPropertyVariables>
                     <!-- end::systemProperties[] -->
