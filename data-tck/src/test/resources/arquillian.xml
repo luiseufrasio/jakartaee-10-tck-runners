@@ -4,16 +4,14 @@
 
     <defaultProtocol type="Servlet 6.0"/>
 
-    <engine>
-    </engine>
-
-    <group qualifier="payara-server" default="true">
-        <container qualifier="http" default="true"/>
-        <container qualifier="https">
-            <configuration>
-                <property name="httpsEnabled">true</property>
-            </configuration>
-        </container>
-    </group>
+    <container qualifier="payara-remote" default="true">
+        <configuration>
+            <property name="adminHost">localhost</property>
+            <property name="adminPort">4848</property>
+            <property name="adminUser">admin</property>
+            <property name="adminPassword"></property>
+            <property name="target">server</property>
+        </configuration>
+    </container>
 
 </arquillian>
