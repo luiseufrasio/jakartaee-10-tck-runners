@@ -123,34 +123,33 @@
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-surefire-plugin</artifactId>
-                <version>${maven.surefire.plugin.version}</version>
-                <configuration>
-                    <dependenciesToScan>
-                        <dependency>jakarta.data:jakarta.data-tck</dependency>
-                    </dependenciesToScan>
-                    <!-- tag::systemProperties[] -->
-                    <systemPropertyVariables>
-                        <!-- tag::signature[] -->
-                        <jimage.dir>${jimage.dir}</jimage.dir>
-                        <signature.sigTestClasspath>${payara.home}${file.separator}glassfish${file.separator}modules${file.separator}jakarta.data-api.jar${path.separator}${project.build.directory}${file.separator}jdk-bundle${file.separator}java.base${path.separator}${project.build.directory}${file.separator}jdk-bundle${file.separator}java.rmi${path.separator}${project.build.directory}${file.separator}jdk-bundle${file.separator}java.sql${path.separator}${project.build.directory}${file.separator}jdk-bundle${file.separator}java.naming</signature.sigTestClasspath>
-                        <!-- end::signature[] -->
-                        <!-- tag::profile[] -->
-                        <!-- Optional, Arquillian will deploy artifacts by default -->
-                        <jakarta.tck.skip.deployment>false</jakarta.tck.skip.deployment>
-                        <junit.jupiter.extensions.autodetection.enabled>true</junit.jupiter.extensions.autodetection.enabled>
-                        <!-- end::profile[] -->
-                    </systemPropertyVariables>
-                    <!-- end::systemProperties[] -->
-                    <!-- Supported tags 
-                        Profiles:[core|web|platform] 
-                        Entities:[nosql|persistence] 
-                        Other:   [signature] -->
-                    <groups>core</groups>
-                    <!-- Ensure surfire plugin looks under src/main/java 
-                    instead of src/test/java -->
-                    <testSourceDirectory>${basedir}/src/main/java/</testSourceDirectory>
-                </configuration>
+                <artifactId>maven-failsafe-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>run-data-tck</id>
+                        <goals>
+                            <goal>integration-test</goal>
+                            <goal>verify</goal>
+                        </goals>
+                        <configuration>
+                            <dependenciesToScan>jakarta.data:jakarta.data-tck</dependenciesToScan>
+                            <includes>
+                                <include>*</include>
+                            </includes>
+                            <argLine>
+                                --add-opens=java.base/jdk.internal.vm.annotation=ALL-UNNAMED
+                            </argLine>
+                            <groups>${jakarta.tck.data.groups}</groups>
+                            <systemPropertyVariables>
+                                <payara.home>${payara.home}</payara.home>
+                                <!-- Set the properties for the API signature test -->
+                                <jimage.dir>${jimage.dir}</jimage.dir>
+                                <junit.jupiter.extensions.autodetection.enabled>true</junit.jupiter.extensions.autodetection.enabled>
+                                <signature.sigTestClasspath>${payara.home}${file.separator}glassfish${file.separator}modules${file.separator}jakarta.data-api.jar${path.separator}${project.build.directory}${file.separator}jdk-bundle${file.separator}java.base${path.separator}${project.build.directory}${file.separator}jdk-bundle${file.separator}java.rmi${path.separator}${project.build.directory}${file.separator}jdk-bundle${file.separator}java.sql${path.separator}${project.build.directory}${file.separator}jdk-bundle${file.separator}java.naming</signature.sigTestClasspath>
+                            </systemPropertyVariables>
+                        </configuration>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>
