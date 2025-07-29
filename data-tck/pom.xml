@@ -76,6 +76,7 @@
         <dependency>
             <groupId>jakarta.data</groupId>
             <artifactId>jakarta.data-tck</artifactId>
+            <version>${jakarta.tck.data.version}</version>
         </dependency>
         <dependency>
             <groupId>jakarta.data</groupId>
@@ -101,13 +102,7 @@
         <dependency>
             <groupId>org.jboss.shrinkwrap</groupId>
             <artifactId>shrinkwrap-api</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.jboss.shrinkwrap</groupId>
-            <artifactId>shrinkwrap-bom</artifactId>
-            <version>1.2.6</version>
-            <type>pom</type>
-            <scope>import</scope>
+            
         </dependency>
         <dependency>
             <groupId>org.jboss.arquillian.junit5</groupId>
