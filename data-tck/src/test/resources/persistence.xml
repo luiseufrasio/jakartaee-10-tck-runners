@@ -11,9 +11,7 @@
         <class>ee.jakarta.tck.data.web.validation.Rectangle</class>
         <exclude-unlisted-classes>true</exclude-unlisted-classes>
         <properties>
-            <!-- EclipseLink specific properties -->
             <property name="eclipselink.orm.throw.exceptions" value="true"/>
-            <property name="eclipselink.target-database" value="H2"/>
             <property name="eclipselink.ddl-generation" value="drop-and-create-tables"/>
             <property name="eclipselink.logging.level.sql" value="FINEST"/>
         </properties>
