@@ -10,7 +10,7 @@
                 <log.file.location>${payara.home}${file.separator}glassfish${file.separator}domains${file.separator}domain1${file.separator}logs</log.file.location>
 
                 <arquillian.version>1.9.1.Final</arquillian.version>
-                <payara.arquillian.version>4.0.alpha4</payara.arquillian.version>
+                <payara.arquillian.version>4.0.alpha1</payara.arquillian.version>
 
                 <junit.version>5.10.3</junit.version>
 
