@@ -22,7 +22,7 @@ public class PayaraPersistenceProcessor implements ApplicationArchiveProcessor {
         if (archive instanceof WebArchive webArchive) {
             webArchive.addAsWebInfResource(getClass().getClassLoader().getResource("persistence.xml"), 
                     "classes/META-INF/persistence.xml")
-                    .addPackages(false, EntityTests.class.getPackage())
+                    .addPackages(false, TransactionExtension.class.getPackage(), EntityTests.class.getPackage())
                     .addPackages(true, SignatureTest.class.getPackage(), PluginAPI.class.getPackage(),
                             com.sun.tdk.signaturetest.core.Log.class.getPackage(), CommandLineParser.class.getPackage())
                     .add(new ClassLoaderAsset("META-INF/services/org.junit.jupiter.api.extension.Extension"),
