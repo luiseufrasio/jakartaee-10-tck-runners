@@ -55,7 +55,6 @@
 
     <properties>
         <jakarta.tck.data.groups>persistence,${jakarta.tck.platform}</jakarta.tck.data.groups>
-        <maven.surefire.plugin.version>3.5.3</maven.surefire.plugin.version>
         <maven.compiler.plugin.version>3.14.0</maven.compiler.plugin.version>
     </properties>
 
@@ -189,20 +188,33 @@
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-surefire-plugin</artifactId>
-                <version>${maven.surefire.plugin.version}</version>
-                <configuration>
-                    <dependenciesToScan>
-                        <dependency>jakarta.data:jakarta.data-tck</dependency>
-                    </dependenciesToScan>
-                    <systemPropertyVariables>
-                        <payara.home>${payara.home}</payara.home>
-                        <jimage.dir>${jimage.dir}</jimage.dir>
-                        <junit.jupiter.extensions.autodetection.enabled>true</junit.jupiter.extensions.autodetection.enabled>
-                        <signature.sigTestClasspath>${payara.home}${file.separator}glassfish${file.separator}modules${file.separator}jakarta.data-api.jar${path.separator}${project.build.directory}${file.separator}jdk-bundle${file.separator}java.base${path.separator}${project.build.directory}${file.separator}jdk-bundle${file.separator}java.rmi${path.separator}${project.build.directory}${file.separator}jdk-bundle${file.separator}java.sql${path.separator}${project.build.directory}${file.separator}jdk-bundle${file.separator}java.naming</signature.sigTestClasspath>
-                    </systemPropertyVariables>
-                    <groups>${jakarta.tck.data.groups}</groups>
-                </configuration>
+                <artifactId>maven-failsafe-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>run-data-tck</id>
+                        <goals>
+                            <goal>integration-test</goal>
+                            <goal>verify</goal>
+                        </goals>
+                        <configuration>
+                            <dependenciesToScan>jakarta.data:jakarta.data-tck</dependenciesToScan>
+                            <includes>
+                                <include>*</include>
+                            </includes>
+                            <argLine>
+                                --add-opens=java.base/jdk.internal.vm.annotation=ALL-UNNAMED
+                            </argLine>
+                            <groups>${jakarta.tck.data.groups}</groups>
+                            <systemPropertyVariables>
+                                <payara.home>${payara.home}</payara.home>
+                                <!-- Set the properties for the API signature test -->
+                                <jimage.dir>${jimage.dir}</jimage.dir>
+                                <junit.jupiter.extensions.autodetection.enabled>true</junit.jupiter.extensions.autodetection.enabled>
+                                <signature.sigTestClasspath>${payara.home}${file.separator}glassfish${file.separator}modules${file.separator}jakarta.data-api.jar${path.separator}${project.build.directory}${file.separator}jdk-bundle${file.separator}java.base${path.separator}${project.build.directory}${file.separator}jdk-bundle${file.separator}java.rmi${path.separator}${project.build.directory}${file.separator}jdk-bundle${file.separator}java.sql${path.separator}${project.build.directory}${file.separator}jdk-bundle${file.separator}java.naming</signature.sigTestClasspath>
+                            </systemPropertyVariables>
+                        </configuration>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>
