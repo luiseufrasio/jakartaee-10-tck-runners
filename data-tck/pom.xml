@@ -54,8 +54,7 @@
     <packaging>jar</packaging>
 
     <properties>
-        <!--jakarta.tck.data.groups>persistence,${jakarta.tck.platform}</jakarta.tck.data.groups-->
-        <jakarta.tck.data.groups>core</jakarta.tck.data.groups>
+        <jakarta.tck.data.groups>persistence,${jakarta.tck.platform}</jakarta.tck.data.groups>
         <maven.surefire.plugin.version>3.5.3</maven.surefire.plugin.version>
         <maven.compiler.plugin.version>3.14.0</maven.compiler.plugin.version>
     </properties>
@@ -138,8 +137,8 @@
                         <jimage.dir>${jimage.dir}</jimage.dir>
                         <junit.jupiter.extensions.autodetection.enabled>true</junit.jupiter.extensions.autodetection.enabled>
                         <signature.sigTestClasspath>${payara.home}${file.separator}glassfish${file.separator}modules${file.separator}jakarta.data-api.jar${path.separator}${project.build.directory}${file.separator}jdk-bundle${file.separator}java.base${path.separator}${project.build.directory}${file.separator}jdk-bundle${file.separator}java.rmi${path.separator}${project.build.directory}${file.separator}jdk-bundle${file.separator}java.sql${path.separator}${project.build.directory}${file.separator}jdk-bundle${file.separator}java.naming</signature.sigTestClasspath>
-                        <groups>${jakarta.tck.data.groups}</groups>
                     </systemPropertyVariables>
+                    <groups>${jakarta.tck.data.groups}</groups>
                 </configuration>
             </plugin>
         </plugins>
