@@ -6,6 +6,9 @@ import org.junit.jupiter.api.extension.ExtensionContext;
 import org.junit.jupiter.api.extension.InvocationInterceptor;
 import org.junit.jupiter.api.extension.ReflectiveInvocationContext;
 
+/**
+ * This Extension will provide transaction for all methods executed by the tests from TCK
+ */
 public class TransactionExtension implements InvocationInterceptor {
 
     private static final Logger log = Logger.getLogger(TransactionExtension.class.getName());

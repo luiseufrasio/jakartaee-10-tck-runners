@@ -11,6 +11,10 @@ import org.jboss.shrinkwrap.api.Archive;
 import org.jboss.shrinkwrap.api.asset.ClassLoaderAsset;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 
+/**
+ * This processor will configure the package required to execute the TCK and the persistence.xml to register the entity classes
+ * used by the repositories
+ */
 public class PayaraPersistenceProcessor implements ApplicationArchiveProcessor {
     
     private static final Logger logger = Logger.getLogger(PayaraPersistenceProcessor.class.getName());
