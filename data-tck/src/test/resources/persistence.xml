@@ -1,0 +1,19 @@
+<persistence version="2.0" xmlns="http://java.sun.com/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd">
+    <persistence-unit name="persistenceUnit" transaction-type="JTA">
+        <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
+        <class>ee.jakarta.tck.data.core.cdi.Person</class>
+        <class>ee.jakarta.tck.data.framework.read.only.AsciiCharacter</class>
+        <class>ee.jakarta.tck.data.framework.read.only.NaturalNumber</class>
+        <class>ee.jakarta.tck.data.standalone.entity.Box</class>
+        <class>ee.jakarta.tck.data.standalone.entity.Coordinate</class>
+        <class>ee.jakarta.tck.data.standalone.persistence.Product</class>
+        <class>ee.jakarta.tck.data.web.validation.Rectangle</class>
+        <exclude-unlisted-classes>true</exclude-unlisted-classes>
+        <properties>
+            <property name="eclipselink.orm.throw.exceptions" value="true"/>
+            <property name="eclipselink.ddl-generation" value="drop-and-create-tables"/>
+            <property name="eclipselink.logging.level.sql" value="FINEST"/>
+        </properties>
+    </persistence-unit>
+</persistence>

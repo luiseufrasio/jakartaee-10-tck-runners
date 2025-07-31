@@ -51,11 +51,11 @@
     <artifactId>data-tck-runner</artifactId>
 
     <name>TCK: Data</name>
-    <packaging>pom</packaging>
+    <packaging>jar</packaging>
 
     <properties>
         <jakarta.tck.data.groups>persistence,${jakarta.tck.platform}</jakarta.tck.data.groups>
-        <slf4j.version>1.7.36</slf4j.version>
+        <maven.compiler.plugin.version>3.14.0</maven.compiler.plugin.version>
     </properties>
 
     <dependencyManagement>
@@ -75,27 +75,11 @@
             <groupId>jakarta.data</groupId>
             <artifactId>jakarta.data-tck</artifactId>
             <version>${jakarta.tck.data.version}</version>
-            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>jakarta.data</groupId>
             <artifactId>jakarta.data-api</artifactId>
         </dependency>
-
-        <dependency>
-            <groupId>org.jboss.arquillian.junit5</groupId>
-            <artifactId>arquillian-junit5-container</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>jakarta.tck</groupId>
-            <artifactId>sigtest-maven-plugin</artifactId>
-        </dependency>
-
         <dependency>
             <groupId>jakarta.servlet</groupId>
             <artifactId>jakarta.servlet-api</artifactId>
@@ -103,23 +87,42 @@
         <dependency>
             <groupId>jakarta.enterprise</groupId>
             <artifactId>jakarta.enterprise.cdi-api</artifactId>
+            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>jakarta.transaction</groupId>
             <artifactId>jakarta.transaction-api</artifactId>
         </dependency>
-
-        <!-- Pull in SLF4J to avoid non-failing client side 'Failed to load class "org.slf4j.impl.StaticLoggerBinder"' error -->
         <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-simple</artifactId>
-            <version>${slf4j.version}</version>
+            <groupId>jakarta.tck</groupId>
+            <artifactId>sigtest-maven-plugin</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.jboss.arquillian.junit5</groupId>
+            <artifactId>arquillian-junit5-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-engine</artifactId>
             <scope>test</scope>
         </dependency>
     </dependencies>
 
     <build>
         <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>${maven.compiler.plugin.version}</version>
+                <configuration>
+                    <release>17</release>
+                </configuration>
+            </plugin>
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>exec-maven-plugin</artifactId>
@@ -131,7 +134,7 @@
                             <goal>exec</goal>
                         </goals>
                         <configuration>
-                            <skip>${skipServerStartStop}</skip>
+                            <skip>${skipConfig}</skip>
                             <executable>${payara.asadmin}</executable>
                             <arguments>
                                 <argument>start-domain</argument>
@@ -160,16 +163,29 @@
                             <goal>exec</goal>
                         </goals>
                         <configuration>
-                            <skip>${skipServerStartStop}</skip>
+                            <skip>${skipConfig}</skip>
                             <executable>${payara.asadmin}</executable>
                             <arguments>
                                 <argument>stop-domain</argument>
                             </arguments>
                         </configuration>
                     </execution>
+                    <execution>
+                        <id>start-payara-server-after-config</id>
+                        <phase>pre-integration-test</phase>
+                        <goals>
+                            <goal>exec</goal>
+                        </goals>
+                        <configuration>
+                            <skip>${skipConfig}</skip>
+                            <executable>${payara.asadmin}</executable>
+                            <arguments>
+                                <argument>start-domain</argument>
+                            </arguments>
+                        </configuration>
+                    </execution>
                 </executions>
             </plugin>
-
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-failsafe-plugin</artifactId>
@@ -193,6 +209,7 @@
                                 <payara.home>${payara.home}</payara.home>
                                 <!-- Set the properties for the API signature test -->
                                 <jimage.dir>${jimage.dir}</jimage.dir>
+                                <junit.jupiter.extensions.autodetection.enabled>true</junit.jupiter.extensions.autodetection.enabled>
                                 <signature.sigTestClasspath>${payara.home}${file.separator}glassfish${file.separator}modules${file.separator}jakarta.data-api.jar${path.separator}${project.build.directory}${file.separator}jdk-bundle${file.separator}java.base${path.separator}${project.build.directory}${file.separator}jdk-bundle${file.separator}java.rmi${path.separator}${project.build.directory}${file.separator}jdk-bundle${file.separator}java.sql${path.separator}${project.build.directory}${file.separator}jdk-bundle${file.separator}java.naming</signature.sigTestClasspath>
                             </systemPropertyVariables>
                         </configuration>
@@ -201,7 +218,7 @@
             </plugin>
         </plugins>
     </build>
-
+    
     <profiles>
         <profile>
             <id>payara-server-remote</id>
