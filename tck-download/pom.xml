@@ -57,6 +57,7 @@
         <module>jakarta-jms-tck</module>
         <module>jakarta-dsol-tck</module>
         <module>jakarta-xml-binding-tck</module>
+        <module>jakarta-mvc-tck</module>
     </modules>
 
     <build>
