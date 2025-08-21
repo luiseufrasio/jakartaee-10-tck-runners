@@ -144,6 +144,7 @@
         <jakarta.tck.resource.version>2.1.0</jakarta.tck.resource.version>
         <jms-tck.version>11.0.0-payara</jms-tck.version>
         <jakarta.tck.xml-binding.version>4.0.2</jakarta.tck.xml-binding.version>
+        <jakarta.tck.mvc.version>3.0.0</jakarta.tck.mvc.version>
 
         <!-- The profile to run - acceptable parameters are 'full', 'web', and 'core' -->
         <jakarta.tck.platform>full</jakarta.tck.platform>
@@ -334,6 +335,7 @@
         <module>jsonb-platform-tck</module>
         <module>jsonp-tck</module>
         <module>jsonp-platform-tck</module>
+        <module>mvc-tck</module>
         <module>pages-tck</module>
         <module>rest-tck</module>
         <module>servlet-tck</module>
@@ -613,6 +615,23 @@
                                 </configuration>
                             </execution>
                         </executions>
+                    </plugin>
+
+                    <plugin>
+                        <artifactId>maven-surefire-plugin</artifactId>
+                        <configuration>
+                            <systemPropertyVariables>
+                                <payara.home>${payara.home}</payara.home>
+                            </systemPropertyVariables>
+                        </configuration>
+                    </plugin>
+                    <plugin>
+                        <artifactId>maven-failsafe-plugin</artifactId>
+                        <configuration>
+                            <systemPropertyVariables>
+                                <payara.home>${payara.home}</payara.home>
+                            </systemPropertyVariables>
+                        </configuration>
                     </plugin>
                 </plugins>
             </build>
