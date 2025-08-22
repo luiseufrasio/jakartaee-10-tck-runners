@@ -54,7 +54,7 @@
     <packaging>jar</packaging>
 
     <properties>
-        <jakarta.tck.data.groups>persistence,${jakarta.tck.platform}</jakarta.tck.data.groups>
+        <jakarta.tck.data.groups><![CDATA[core & persistence]]></jakarta.tck.data.groups>
         <maven.compiler.plugin.version>3.14.0</maven.compiler.plugin.version>
     </properties>
 
@@ -210,6 +210,24 @@
             <id>payara-server-remote</id>
             <properties>
                 <skipConfig>true</skipConfig>
+            </properties>
+        </profile>
+        <profile>
+            <id>core-data</id>
+            <properties>
+                <jakarta.tck.data.groups><![CDATA[core & persistence]]></jakarta.tck.data.groups>
+            </properties>
+        </profile>
+        <profile>
+            <id>web-data</id>
+            <properties>
+                <jakarta.tck.data.groups><![CDATA[web & persistence]]></jakarta.tck.data.groups>
+            </properties>
+        </profile>
+        <profile>
+            <id>full-data</id>
+            <properties>
+                <jakarta.tck.data.groups><![CDATA[platform & persistence]]></jakarta.tck.data.groups>
             </properties>
         </profile>
     </profiles>
