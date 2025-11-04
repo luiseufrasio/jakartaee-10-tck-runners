@@ -706,6 +706,36 @@
                         </configuration>
                     </execution>
 
+                    <execution>
+                        <id>disable-strict-header-name-validation</id>
+                        <phase>pre-integration-test</phase>
+                        <goals>
+                            <goal>exec</goal>
+                        </goals>
+                        <configuration>
+                            <skip>${skipConfig}</skip>
+                            <executable>${payara.asadmin}</executable>
+                            <arguments>
+                                <argument>create-system-property</argument>
+                                <argument>org.glassfish.grizzly.http.STRICT_HEADER_NAME_VALIDATION_RFC_9110=false</argument>
+                            </arguments>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>disable-strict-header-value-validation</id>
+                        <phase>pre-integration-test</phase>
+                        <goals>
+                            <goal>exec</goal>
+                        </goals>
+                        <configuration>
+                            <skip>${skipConfig}</skip>
+                            <executable>${payara.asadmin}</executable>
+                            <arguments>
+                                <argument>create-system-property</argument>
+                                <argument>org.glassfish.grizzly.http.STRICT_HEADER_VALUE_VALIDATION_RFC_9110=false</argument>
+                            </arguments>
+                        </configuration>
+                    </execution>
 
                     <execution>
                         <id>stop-payara-server-after-config</id>
