@@ -73,6 +73,19 @@
             <artifactId>common</artifactId>
             <version>${jakarta.tck.common.version}</version>
             <scope>test</scope>
+            <!-- Jenkins seems to require us to require us to not use the version bundled with this (1.2) -->
+            <exclusions>
+                <exclusion>
+                    <groupId>commons-codec</groupId>
+                    <artifactId>commons-codec</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+        <dependency>
+            <groupId>commons-codec</groupId>
+            <artifactId>commons-codec</artifactId>
+            <version>1.18.0</version>
         </dependency>
 
         <dependency>
